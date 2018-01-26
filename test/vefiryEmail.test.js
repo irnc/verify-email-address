@@ -62,4 +62,14 @@ describe('verifyEmail', () => {
       done();
     });
   });
+
+  it('should definitely tell unavailability of outlook.com mailbox', (done) => {
+    verifyEmail(`test-${Date.now()}@outlook.com`, (err, result) => {
+      assert.ifError(err);
+      assertVerificationSequence(result);
+      assert.equal(result.mailboxExists, false);
+
+      done();
+    });
+  });
 });

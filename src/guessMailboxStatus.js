@@ -5,6 +5,10 @@ const E_DOES_NOT_EXIST = '550-5.1.1 The email account that you tried to reach do
 const E_IS_DISABLED = '550-5.2.1 The email account that you tried to reach is disabled.';
 const E_IS_OVER_QUOTA = '552-5.2.2 The email account that you tried to reach is over quota.';
 
+// outlook.com
+const E_OUTLOOK_MAILBOX_UNAVAILABLE = '550 5.5.0 Requested action not taken: mailbox unavailable.';
+
+
 const resultTemplate = {
   exchangeAllowedInitialConnection: undefined,
   exchangeAllowedMailSession: undefined,
@@ -75,7 +79,10 @@ function guessMailboxStatus(responses) {
   //
   // Existence would be undefined if we couldn't conclude definitely.
 
-  if (responses[3].indexOf(E_DOES_NOT_EXIST) === 0) {
+  if (
+    responses[3].indexOf(E_DOES_NOT_EXIST) === 0 ||
+    responses[3].indexOf(E_OUTLOOK_MAILBOX_UNAVAILABLE) === 0
+  ) {
     result.mailboxExists = false;
     result.mailboxCouldReceive = false;
 
