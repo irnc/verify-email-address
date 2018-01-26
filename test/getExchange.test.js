@@ -28,6 +28,15 @@ describe('getExchange', () => {
     });
   });
 
+  // dig MX xcvb.com answers with CNAME record
+  it('should error on domain without MX record, but with CNAME in answer to MX record', (done) => {
+    getExchange('xcvb.com', (err) => {
+      assert.equal(err.domainResolves, true, 'unexpected domainResolves');
+      assert.equal(err.domainHasExchangeRecord, false, 'unexpected domainHasExchangeRecord');
+      done();
+    });
+  });
+
   it('should error when MX record is empty', (done) => {
     getExchange('yahho.com', (err, exchange) => {
       assert.equal(exchange, undefined);

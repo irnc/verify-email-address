@@ -12,8 +12,22 @@ function getExchange(domain, callback) {
       domainError.domainHasExchangeRecord = undefined;
 
       if (domainError.domainResolves) {
+        // ENODATA occurs when there are no records in DNS answer, but there
+        // could be records, but of type other than MX, see below for handling.
         domainError.domainHasExchangeRecord = !err.message.match(/^queryMx ENODATA/);
       }
+
+      callback(domainError);
+      return;
+    }
+
+    // `resolveMx` errors when there are no records in DNS answer, but there
+    // could be records, but of type other than MX. In this case, there would
+    // be no error and addresses would be empty array.
+    if (addresses.length === 0) {
+      const domainError = new Error(`No addresses for ${domain}`);
+      domainError.domainResolves = true;
+      domainError.domainHasExchangeRecord = false;
 
       callback(domainError);
       return;
