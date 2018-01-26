@@ -76,9 +76,6 @@ function verifyEmail(email, callback) {
         return;
       }
 
-      if (responses.length === 0) {
-        console.error({ email, exchange });
-      }
       // If there is no queryErr, then we conclude that exchange resolves.
       result.exchangeResolves = true;
 
