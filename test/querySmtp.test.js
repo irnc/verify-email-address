@@ -109,4 +109,17 @@ describe('querySmtp', () => {
       done();
     });
   });
+
+  it('should error when exchange refused TCP connection', (done) => {
+    // migration.com has MX record set to `localhost`
+    querySmtp('example@migration.com', { exchange: 'localhost' }, (err) => {
+      assert.equal(err.exchangeResolves, true, 'unexpected exchangeResolves');
+      assert.equal(
+        err.exchangeAllowedInitialConnection,
+        false,
+        'unexpected exchangeAllowedInitialConnection'
+      );
+      done();
+    });
+  });
 });

@@ -47,4 +47,14 @@ describe('verifyEmail', () => {
       done();
     });
   });
+
+  it('should error on failure to establish a TCP connection', (done) => {
+    verifyEmail('example@migration.com', (err, result) => {
+      assert.ifError(err);
+      assertVerificationSequence(result);
+      assert.equal(result.exchangeAllowedInitialConnection, false);
+
+      done();
+    });
+  });
 });

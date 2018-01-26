@@ -71,6 +71,7 @@ function verifyEmail(email, callback) {
 
       if (queryErr) {
         result.exchangeResolves = queryErr.exchangeResolves;
+        result.exchangeAllowedInitialConnection = queryErr.exchangeAllowedInitialConnection;
 
         callback(null, result);
         return;

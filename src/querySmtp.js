@@ -98,6 +98,11 @@ function querySmtp(email, options, callback) {
     const exchangeError = new Error(err.message);
 
     exchangeError.exchangeResolves = !err.message.match(/^getaddrinfo ENOTFOUND/);
+    exchangeError.exchangeAllowedInitialConnection = undefined;
+
+    if (exchangeError.exchangeResolves) {
+      exchangeError.exchangeAllowedInitialConnection = !err.message.match(/^connect ECONNREFUSED/);
+    }
 
     callback(exchangeError, responses);
   });
