@@ -1,5 +1,7 @@
 'use strict';
 
+const assert = require('assert');
+
 // gmail.com
 const E_DOES_NOT_EXIST = '550-5.1.1 The email account that you tried to reach does not exist.';
 const E_IS_DISABLED = '550-5.2.1 The email account that you tried to reach is disabled.';
@@ -21,13 +23,11 @@ const resultTemplate = {
 };
 
 function guessMailboxStatus(responses) {
+  assert(responses.length > 0, '[NO_RESPONSES] could not guess from nothing');
+
   const result = Object.assign({}, resultTemplate);
 
   Object.seal(result);
-
-  if (responses.length === 0) {
-    throw new Error('TODO unexpected');
-  }
 
   // There was an initial connection if we have at least one response.
   result.exchangeAllowedInitialConnection = true;

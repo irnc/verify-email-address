@@ -33,4 +33,11 @@ describe('guessMailboxStatus', () => {
       done();
     });
   });
+
+  it('should throw on no responses', () => {
+    assert.throws(
+      () => guessMailboxStatus([]),
+      /\[NO_RESPONSES]/
+    );
+  });
 });
