@@ -79,6 +79,8 @@ function verifyEmail(email, callback) {
       if (responses.length === 0) {
         console.error({ email, exchange });
       }
+      // If there is no queryErr, then we conclude that exchange resolves.
+      result.exchangeResolves = true;
 
       callback(null, Object.assign(result, guessMailboxStatus(responses)));
     });
