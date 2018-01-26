@@ -26,6 +26,7 @@ const resultTemplate = {
   // Raw responses from SMTP server is also returned in result to allow
   // API consumers to observe data on which decisions was made.
   responses: undefined,
+  latestError: undefined,
 };
 
 function verifyEmail(email, callback) {
@@ -56,6 +57,7 @@ function verifyEmail(email, callback) {
 
       result.domainResolves = err.domainResolves;
       result.domainHasExchangeRecord = err.domainHasExchangeRecord;
+      result.latestError = err;
 
       callback(null, result);
       return;
@@ -72,6 +74,7 @@ function verifyEmail(email, callback) {
       if (queryErr) {
         result.exchangeResolves = queryErr.exchangeResolves;
         result.exchangeAllowedInitialConnection = queryErr.exchangeAllowedInitialConnection;
+        result.latestError = queryErr;
 
         callback(null, result);
         return;

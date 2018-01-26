@@ -33,6 +33,7 @@ describe('verifyEmail', () => {
       assertVerificationSequence(result);
       assert.equal(result.format, false);
       assert.equal(result.domainResolves, undefined);
+      assert.equal(result.latestError, undefined);
 
       done();
     });
@@ -53,6 +54,10 @@ describe('verifyEmail', () => {
       assert.ifError(err);
       assertVerificationSequence(result);
       assert.equal(result.exchangeAllowedInitialConnection, false);
+      assert.equal(
+        result.latestError.message.match(/^connect ECONNREFUSED/).length,
+        1
+      );
 
       done();
     });

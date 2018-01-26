@@ -12,14 +12,18 @@ const orderedSteps = [
   'exchangeAcceptedHello',
   'exchangeAcceptedMailCommand',
   'exchangeAcceptedRecipientCommand',
-  'mailboxExists',
-  'mailboxCouldReceive',
 ];
 
 module.exports = function assertVerificationSequence(result) {
   assert.deepEqual(
     Object.keys(result),
-    [...orderedSteps, 'responses'],
+    [
+      ...orderedSteps,
+      'mailboxExists',
+      'mailboxCouldReceive',
+      'responses',
+      'latestError',
+    ],
     'does not have all needed properties'
   );
 
