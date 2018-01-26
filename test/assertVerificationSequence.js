@@ -21,6 +21,7 @@ module.exports = function assertVerificationSequence(result) {
       ...orderedSteps,
       'mailboxExists',
       'mailboxCouldReceive',
+      'exchange',
       'responses',
       'latestError',
     ],

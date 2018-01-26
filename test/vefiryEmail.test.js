@@ -72,4 +72,15 @@ describe('verifyEmail', () => {
       done();
     });
   });
+
+  it('should return exchange in result', (done) => {
+    verifyEmail(`test-${Date.now()}@outlook.com`, (err, result) => {
+      assert.ifError(err);
+      assertVerificationSequence(result);
+
+      assert.equal(result.exchange, 'outlook-com.olc.protection.outlook.com');
+
+      done();
+    });
+  });
 });

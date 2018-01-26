@@ -23,6 +23,7 @@ const resultTemplate = {
   mailboxExists: undefined,
   mailboxCouldReceive: undefined,
 
+  exchange: undefined,
   // Raw responses from SMTP server is also returned in result to allow
   // API consumers to observe data on which decisions was made.
   responses: undefined,
@@ -67,6 +68,7 @@ function verifyEmail(email, callback) {
     // it has exchange record.
     result.domainResolves = true;
     result.domainHasExchangeRecord = true;
+    result.exchange = exchange;
 
     querySmtp(email, { exchange }, (queryErr, responses) => {
       result.responses = responses;
@@ -82,6 +84,10 @@ function verifyEmail(email, callback) {
 
       // If there is no queryErr, then we conclude that exchange resolves.
       result.exchangeResolves = true;
+
+      if (responses.length === 0) {
+        result.latestError = new Error(`No error and no responses for ${email} from ${exchange}`);
+      }
 
       callback(null, Object.assign(result, guessMailboxStatus(responses)));
     });
